@@ -51,6 +51,14 @@ public class HomeActivity extends AppCompatActivity{
                     status.add(dataSnapshot.getValue(DataStrucString.class));
                     Log.d("test", "onDataChange: " + status);
 
+                    if (mSwitch.isChecked()) {
+                        pirstatus.setText(status.get(status.size()-1).getStatus());
+
+                        Log.d("int", "onCheckedChanged: " + status.get(status.size()-1).getStatus());
+                    } else {
+                        pirstatus.setText("Loading...");
+                    }
+
                 }
             }
 
@@ -75,24 +83,19 @@ public class HomeActivity extends AppCompatActivity{
             }
         });
 
-        dref.addValueEventListener(new ValueEventListener() {
-            @Override
-          public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        dref.child("Pulse_Sensor").addChildEventListener(new ChildEventListener() {
+               dref.child("Pulse_Sensor").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 if(dataSnapshot.exists()){
                     bpm.add(dataSnapshot.getValue(DataStrucBPM.class));
                     Log.d("test", "onDataChange: " + bpm);
+                    if (mSwitch.isChecked()) {
+                        pulsebpm.setText(bpm.get(bpm.size()-1).getBPM().toString());
+                        Log.d("int", "onCheckedChanged: " + bpm.get(bpm.size()-1).getBPM().toString());
+                    } else {
+                        pulsebpm.setText("Loading...");
+                    }
+
 
                 }
             }
@@ -122,14 +125,12 @@ public class HomeActivity extends AppCompatActivity{
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (mSwitch.isChecked()) {
-                    pirstatus.setText(status.get(status.size()-1).getStatus());
                     pulsebpm.setText(bpm.get(bpm.size()-1).getBPM().toString());
-
-                    Log.d("int", "onCheckedChanged: " + status.get(status.size()-1).getStatus());
+                    pirstatus.setText(status.get(status.size()-1).getStatus());
                     Log.d("int", "onCheckedChanged: " + bpm.get(bpm.size()-1).getBPM().toString());
                 } else {
-                    pirstatus.setText("Loading...");
                     pulsebpm.setText("Loading...");
+                    pirstatus.setText("Loading...");
                 }
             }
         });
